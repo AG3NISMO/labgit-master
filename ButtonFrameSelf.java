@@ -2,59 +2,60 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-/*
-  To change from the delegation method (method 1; the original
-  technique of event handling for ButtonFrame) to method 2
-  (the object serves as its own listener), simply move the 
-  event handling methods (the ones on the listener interfaces)
-  into ButtonFrame (renamed ButtonFrameSelf here). The only 
-  catch is that you cannot extend WindowAdapter now, so you
-  will have to add all the empty methods of interface WindowListener.
-*/
 public class ButtonFrameSelf extends JFrame
     implements ActionListener, WindowListener
 {
-    // move the count class variable into this class
+    // Count to track the number of button presses
     private int count = 0;
 
+    // Constructor to set up the buttons and listeners
     public ButtonFrameSelf()
     {
-	JButton open = new JButton("Open");
-	JButton close = new JButton("Close");
-	
-	open.addActionListener(this);
-	close.addActionListener(this);
-	
-	Container pane = getContentPane();
-	pane.setLayout(new FlowLayout());
-	pane.add(open);
-	pane.add(close);
-	
-	addWindowListener(this);
-	setSize(200, 100);
-	setVisible(true);
+        JButton open = new JButton("Open");
+        JButton close = new JButton("Close");
+
+        // The current object (this) is both the action and window listener
+        open.addActionListener(this);
+        close.addActionListener(this);
+
+        // Set up the layout and add buttons to the pane
+        Container pane = getContentPane();
+        pane.setLayout(new FlowLayout());
+        pane.add(open);
+        pane.add(close);
+
+        // Add the window listener to handle window events
+        addWindowListener(this);
+        
+        // Window properties
+        setSize(300, 150);  // Larger window size for better visibility
+        setLocationRelativeTo(null);  // Center the window on the screen
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Exit on close
+        setVisible(true);    // Make the window visible
     }
 
+    // Main method to run the application
     public static void main(String args[])
     {
-	JFrame f = new ButtonFrame();
+        new ButtonFrameSelf(); // Instantiating ButtonFrameSelf
     }
 
+    // Method from ActionListener interface to handle button presses
     public void actionPerformed(ActionEvent e)
     {
-	System.out.println("Button pressed (" + count++ + ") " + 
-			   e.getActionCommand());
+        // Print the number of times a button was pressed and its label 
+        System.out.println("Button pressed (" + count++ + ") " + e.getActionCommand());
     }
 
+    // Method from WindowListener interface to handle window closing event
     public void windowClosing(WindowEvent we)
     {
-	System.out.println("Application exiting");
-	System.exit(0);
+        // Print message and exit application
+        System.out.println("Application exiting");
+        System.exit(0);
     }
 
-    // and these are all the other methods inherited from
-    // interface WindowListener that we have to provide
-    // empty implementations for...
+    // Other required methods from WindowListener interface with empty implementations
     public void windowOpened(WindowEvent we) {}
     public void windowIconified(WindowEvent we)  {}
     public void windowDeiconified(WindowEvent we)  {}
@@ -62,6 +63,3 @@ public class ButtonFrameSelf extends JFrame
     public void windowActivated(WindowEvent we) {}
     public void windowDeactivated(WindowEvent we) {}
 }
-
-
-

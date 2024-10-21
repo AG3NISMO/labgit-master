@@ -4,46 +4,48 @@ import java.awt.event.*;
 
 class ButtonListener implements ActionListener
 {
-	int count = 0;
-	public void actionPerformed(ActionEvent e)
-	{
-	    System.out.println("Button pressed (" + count++ + ") " + 
-			       e.getActionCommand());
-	}
+    int count = 0;
+    public void actionPerformed(ActionEvent e)
+    {
+        System.out.println("Button pressed (" + count++ + ") " + 
+                           e.getActionCommand());
+    }
 }
 
 class ButtonCloser extends WindowAdapter
 {
     public void windowClosing(WindowEvent we)
     {
-	System.out.println("Application exiting");
-	System.exit(0);
+        System.out.println("Application exiting");
+        System.exit(0);
     }
 }
 
 public class ButtonFrame extends JFrame
 {
-	public ButtonFrame()
-	{
-		JButton open = new JButton("Open");
-		JButton close = new JButton("Close");
-		ActionListener listener = new ButtonListener();
+    public ButtonFrame()
+    {
+        JButton open = new JButton("Open");
+        JButton close = new JButton("Close");
+        ActionListener listener = new ButtonListener();
 
-		open.addActionListener(listener);
-		close.addActionListener(listener);
+        open.addActionListener(listener);
+        close.addActionListener(listener);
 
-		Container pane = getContentPane();
-		pane.setLayout(new FlowLayout());
-		pane.add(open);
-		pane.add(close);
+        Container pane = getContentPane();
+        pane.setLayout(new FlowLayout());
+        pane.add(open);
+        pane.add(close);
 
-		addWindowListener(new ButtonCloser());
-		setSize(200, 100);
-		setVisible(true);
-	}
+        addWindowListener(new ButtonCloser());
 
-	public static void main(String args[])
-	{
-		JFrame f = new ButtonFrame();
-	}
+        setSize(300, 150);  // Larger window size
+        setLocationRelativeTo(null);  // Center window on the screen
+        setVisible(true);
+    }
+
+    public static void main(String args[])
+    {
+        new ButtonFrame();
+    }
 }

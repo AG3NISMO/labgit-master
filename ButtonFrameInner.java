@@ -2,56 +2,62 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-/*
-  To change from the delegation method (method 1; the original
-  technique of event handling for ButtonFrame) to the inner class
-  technique, simply move the ButtonListener and ButtonCloser
-  classes inside ButtonFrame (called ButtonFrame Inner here)
-  and make them private.
-*/
 public class ButtonFrameInner extends JFrame
 {
-	public ButtonFrameInner()
-	{
-		JButton open = new JButton("Open");
-		JButton close = new JButton("Close");
-		ActionListener listener = new ButtonListener();
+    // Constructor: Sets up the JFrame with two buttons (Open and Close)
+    public ButtonFrameInner()
+    {
+        // Create buttons
+        JButton open = new JButton("Open");
+        JButton close = new JButton("Close");
+        
+        // Create an instance of the ActionListener 
+        ActionListener listener = new ButtonListener();
 
-		open.addActionListener(listener);
-		close.addActionListener(listener);
+        // Add ActionListeners to the buttons
+        open.addActionListener(listener);
+        close.addActionListener(listener);
 
-		Container pane = getContentPane();
-		pane.setLayout(new FlowLayout());
-		pane.add(open);
-		pane.add(close);
+        // Set up the container and layout
+        Container pane = getContentPane();
+        pane.setLayout(new FlowLayout());
+        pane.add(open);
+        pane.add(close);
 
-		addWindowListener(new ButtonCloser());
-		setSize(200, 100);
-		setVisible(true);
-	}
+        // Add window closing event listener 
+        addWindowListener(new ButtonCloser());
 
-	public static void main(String args[])
-	{
-		JFrame f = new ButtonFrame();
-	}
+        // Set window properties
+        setSize(300, 150);  // Larger window for better visibility
+        setLocationRelativeTo(null);  // Center the window on the screen
+        setVisible(true);  // Make the window visible
+    }
 
+    // Main method to run the application
+    public static void main(String args[])
+    {
+        new ButtonFrameInner(); // Instantiating the updated inner-class based ButtonFrame
+    }
+
+    // Inner class to handle button events 
     private class ButtonListener implements ActionListener
     {
-	int count = 0;
-	public void actionPerformed(ActionEvent e)
-	{
-	    System.out.println("Button pressed (" + count++ + ") " + 
-			       e.getActionCommand());
-	}
+        int count = 0; // Counter to track button presses
+        public void actionPerformed(ActionEvent e)
+        {
+            // Print button press count and the button's action command 
+            System.out.println("Button pressed (" + count++ + ") " + e.getActionCommand());
+        }
     }
 
+    // Inner class to handle window closing event 
     private class ButtonCloser extends WindowAdapter
     {
-	public void windowClosing(WindowEvent we)
-	{
-	    System.out.println("Application exiting");
-	    System.exit(0);
-	}
+        public void windowClosing(WindowEvent we)
+        {
+            // Print exit message and close the application
+            System.out.println("Application exiting");
+            System.exit(0);
+        }
     }
-
 }
